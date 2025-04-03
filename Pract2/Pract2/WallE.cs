@@ -51,12 +51,13 @@ namespace WallE
                 {
                     case "place":
                         CreatePlace(v);
+                        ReadDescription(entrada);
                         break;
                     case "street":
-                        CreateStreet();
+                        CreateStreet(v);
                         break;
                     case "garbage":
-                        CreateItem();
+                        CreateItem(v);
                         break;
                 }
             }
@@ -69,11 +70,11 @@ namespace WallE
             places[int.Parse(v[1])].spaceShip = (v[3]=="spaceShip");
 
         }
-        private void CreateStreet()
+        private void CreateStreet(string[] v)
         {
 
         }
-        private void CreateItem()
+        private void CreateItem(string[] v)
         {
 
         }

@@ -51,7 +51,7 @@ namespace WallE
                 switch (v[0])
                 {
                     case "place":
-                        CreatePlace(v);
+                        CreatePlace(v, entrada);
                         //ReadDescription(entrada);
                         break;
                     case "street":
@@ -65,13 +65,27 @@ namespace WallE
             
         }
 
-        private void CreatePlace(string[] v)
+        private void CreatePlace(string[] v, StreamReader texto)
         {
-            int pos = int.Parse(v[1]);
+            int i = 1;
+            int pos=0;
+            foreach (string s in v)
+            {
+                try
+                {
+                    pos = int.Parse(v[i]);
+                }
+                catch
+                {
+                    i++;
+                }
+            }
+
             places[pos].name = v[2];
-            places[pos].spaceShip = (v[3] == "spaceShip");
-            places[pos].connections = new int[] { -1, -1, -1, -1 };
+            places[pos].spaceShip = (v[3]=="spaceShip");
             places[pos].itemsInPlace = new ListaEnlazada();
+            places[pos].connections = new int [] { -1, -1, -1,-1};
+            places[pos].description = ReadDescription(texto);
         }
         private void CreateStreet(string[] v)
         {

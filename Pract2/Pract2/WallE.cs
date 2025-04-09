@@ -112,12 +112,51 @@ namespace WallE
 
         private string ReadDescription(StreamReader f) 
         {
-            
+
         }
 
         public string GetPlaceInfo(int pl)
         {
+            return places[pl].description;
+        }
 
+        public string GetMoves(int pl)
+        {
+            // Inicializo variables
+            string north = "", south = "", east = "", west = "";
+
+            // Añado el nombre de las calles conectados en caso de que existan
+            for (int i = 0; i < places[pl].connections.Length ; i++)
+            {
+                if (places[pl].connections[i] != -1)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            north = places[places[pl].connections[i]].name;
+                            break;
+                        case 1:
+                            south = places[places[pl].connections[i]].name;
+                            break;
+                        case 2:
+                            east = places[places[pl].connections[i]].name;
+                            break;
+                        case 3:
+                            west = places[places[pl].connections[i]].name;
+                            break;
+                    }
+                }
+            }
+
+            // Las meto en el return
+            string result = "";
+
+            if (north != "") result += $"north: {north}\n";
+            if (east != "") result += $"east: {east}\n";
+            if (south != "") result += $"south: {south}\n";
+            if (west != "") result += $"west: {west}\n";
+
+            return result;
         }
     }
 }

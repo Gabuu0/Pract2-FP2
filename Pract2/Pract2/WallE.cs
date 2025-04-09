@@ -51,7 +51,7 @@ namespace WallE
                 {
                     case "place":
                         CreatePlace(v);
-                        ReadDescription(entrada);
+                        //ReadDescription(entrada);
                         break;
                     case "street":
                         CreateStreet(v);
@@ -68,19 +68,19 @@ namespace WallE
         {
             places[int.Parse(v[1])].name = v[2];
             places[int.Parse(v[1])].spaceShip = (v[3]=="spaceShip");
-
         }
         private void CreateStreet(string[] v)
         {
-
+            Direction direction = Enum.Parse<Direction>(v[2]);
+            places[int.Parse(v[1])].connections[(int)direction] = int.Parse(v[3]);
         }
         private void CreateItem(string[] v)
         {
 
         }
-        private string ReadDescription(StreamReader f) 
+        /*private string ReadDescription(StreamReader f) 
         {
 
-        }
+        }*/
     }
 }

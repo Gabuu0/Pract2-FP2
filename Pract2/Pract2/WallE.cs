@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Listas;
 using System.ComponentModel;
+using System.Xml.Linq;
 
 namespace WallE
 {
@@ -66,21 +67,43 @@ namespace WallE
 
         private void CreatePlace(string[] v)
         {
-            places[int.Parse(v[1])].name = v[2];
-            places[int.Parse(v[1])].spaceShip = (v[3]=="spaceShip");
+            int pos = int.Parse(v[1]);
+            places[pos].name = v[2];
+            places[pos].spaceShip = (v[3] == "spaceShip");
+            places[pos].connections = new int[] { -1, -1, -1, -1 };
+            places[pos].itemsInPlace = new ListaEnlazada();
         }
         private void CreateStreet(string[] v)
         {
+            int pos = int.Parse(v[1]);
             Direction direction = Enum.Parse<Direction>(v[2]);
-            places[int.Parse(v[1])].connections[(int)direction] = int.Parse(v[3]);
+            places[pos].connections[(int)direction] = int.Parse(v[3]);
         }
         private void CreateItem(string[] v)
         {
+            int pos = int.Parse(v[2]);
+            string description = string.Join(' ', v.Skip(4)).Trim('"');
 
+            places[pos].itemsInPlace.InsertaFinal(int.Parse(v[3]));
+
+            int posArray = 0;
+            while (items[posArray].name != null)
+            {
+                posArray++;
+            }
+
+            items[posArray].name = v[3];
+            items[posArray].description = v[4];
         }
-        /*private string ReadDescription(StreamReader f) 
+
+        private string ReadDescription(StreamReader f) 
+        {
+            
+        }
+
+        public string GetPlaceInfo(int pl)
         {
 
-        }*/
+        }
     }
 }

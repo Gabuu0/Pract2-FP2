@@ -180,7 +180,7 @@ namespace WallE
 
         public string GetItemsPlace(int pl)
         {
-
+            int elems = places[pl].itemsInPlace.NumElems();
         }
     }
 }

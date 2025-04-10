@@ -12,6 +12,7 @@ using System.Xml.Linq;
 namespace WallE
 {
     public enum Direction { North, South, East, West };
+    
     class Map
     {
         // items basursa
@@ -73,12 +74,9 @@ namespace WallE
             {
                 try
                 {
-                    pos = int.Parse(v[i]);
+                    pos = int.Parse(s);
                 }
-                catch
-                {
-                    i++;
-                }
+                catch { }
             }
 
             places[pos].name = v[2];
@@ -112,7 +110,28 @@ namespace WallE
 
         private string ReadDescription(StreamReader f) 
         {
+            string description;
+            string line;
+            string[] w;
+            do
+            {
+                line = f.ReadLine();
+                line = line.Trim();
+                w = line.Split(' ');
+            } while (!w[0].StartsWith('"'));
 
+            line = line.Trim('"');
+            description = line;
+            while (!w[w.Length -1].EndsWith('"'))
+            {
+                line = f.ReadLine();
+                line = line.Trim();
+                w = line.Split(' ');
+                line = line.Trim('"');
+                description += "\n" + line;
+            }
+            return description;
+            
         }
 
         public string GetPlaceInfo(int pl)
@@ -157,6 +176,11 @@ namespace WallE
             if (west != "") result += $"west: {west}\n";
 
             return result;
+        }
+
+        public string GetItemsPlace(int pl)
+        {
+
         }
     }
 }

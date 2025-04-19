@@ -1,72 +1,104 @@
 using System;
-using Listas;
+using System.IO;
 
-namespace Main
+namespace WallE
 {
-	class MainClass
-	{
-		public static void Main (string[] args)
-		{
-			ListaEnlazada l = new ListaEnlazada ();
-			int op;
-			do {
-				int e;
-				op = menu ();
-				switch (op){
-				case 0:
-					Console.WriteLine("Bye");
-					break;
-				case 1:
-					Console.Write("Dato: ");
-					e=int.Parse(Console.ReadLine());
-					l.InsertaPpio(e);
-					break;
-				case 2:
-					Console.Write("Dato: ");
-					e=int.Parse(Console.ReadLine());
-					l.InsertaFinal(e);
-					break;
-				case 3:
-					Console.Write("Dato: ");
-					e=int.Parse(Console.ReadLine());
-					if (l.BuscaDato(e))
-						Console.WriteLine("Esta!");
-					else
-						Console.WriteLine("No esta!");
-					break;
-				case 4:
-					Console.Write("Dato: ");
-					e=int.Parse(Console.ReadLine());
-					if (l.EliminaElto(e)) Console.WriteLine("Eliminado!");
-					else Console.WriteLine("No esta!");
-					break;
-				case 5:					
-					Console.WriteLine($"Num elems: {l.NumElems()}");
-					break;
+    class Program
+    {
+        static void ProcesaInput(string com, WallE w, Map m)
+        {
+            string[] partes = com.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-				}
-				Console.WriteLine(l);
-			} while (op!=0);
+            if (partes.Length == 0) return;     //Si no se ha escrito nada
 
+            switch (partes[0].ToLower())
+            {
+                case "move":
+                    if (partes.Length > 1 && Enum.TryParse<Direction>(partes[1], true, out Direction dir))
+                    {
+                        w.Move(m, dir);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Dirección no válida. Usa: north, south, east, west.");
+                    }
+                    break;
 
-		}
+                case "pick":
+                    if (partes.Length > 1 && int.TryParse(partes[1], out int itemIndex))
+                    {
+                        w.PickItem(m, itemIndex);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Índice de ítem no válido.");
+                    }
+                    break;
 
-		static int menu(){
-			Console.WriteLine("0. Salir");
-			Console.WriteLine("1. Inserta ppio");
-			Console.WriteLine("2. Inserta final");
-			Console.WriteLine("3. Busca elto");
-			Console.WriteLine("4. Elimina elto");
-			Console.WriteLine("5. Num elems");
+                case "drop":
+                    if (partes.Length > 1 && int.TryParse(partes[1], out int dropIndex))
+                    {
+                        w.DropItem(m, dropIndex);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Índice de mochila no válido.");
+                    }
+                    break;
 
-			int op;
-			do {
-				Console.Write("Opcion: ");
-				op = int.Parse(Console.ReadLine());
-			} while (op<0 || op> 5);
-			return op;
-		}
+                case "look":
+                    Console.WriteLine(m.GetPlaceInfo(w.GetPosition()));
+                    Console.WriteLine("Caminos disponibles:");
+                    Console.WriteLine(m.GetMoves(w.GetPosition()));
+                    Console.WriteLine("Objetos en este lugar:");
+                    Console.WriteLine(m.GetItemsPlace(w.GetPosition()));
+                    break;
 
+                case "bag":
+                    Console.WriteLine("Mochila:");
+                    Console.WriteLine(w.Bag(m));
+                    break;
 
-	}
+                case "quit":
+                    Console.WriteLine("Saliendo del juego...");
+                    Environment.Exit(0);
+                    break;
+
+                default:
+                    Console.WriteLine("Comando no reconocido.");
+                    break;
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            // Ruta del archivo del mapa (puedes cambiarlo según donde lo tengas)
+            string filePath = "madrid.txt"; // o args[0] si lo pasas por línea de comandos
+
+            // Puedes ajustar estos valores si lo sabes de antemano o leerlos del archivo
+            Map map = new Map(100, 100); // por ejemplo, 100 lugares, 100 ítems
+            map.ReadMap(filePath);
+
+            WallE w = new WallE();
+
+            Console.WriteLine("¡Bienvenido al mundo de WALL·E!");
+            Console.WriteLine("Comandos: move <dir>, pick <idx>, drop <idx>, look, bag, quit");
+
+            while (true)
+            {
+                Console.Write("> ");
+                string input = Console.ReadLine();
+                ProcesaInput(input, w, map);
+
+                if (w.AtSpaceShip(map))
+                {
+                    Console.WriteLine("¡Has llegado a la nave espacial!");
+                    break;
+                }
+            }
+
+            Console.WriteLine("Ítems recogidos por WALL·E:");
+            Console.WriteLine(w.Bag(map));
+        }
+    }
 }

@@ -48,6 +48,10 @@ namespace WallE
             while (!entrada.EndOfStream)
             {
                 string s = entrada.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(s))       //Si la linea esta vacia pasa a la siguiente
+                    continue; 
+
                 string[] v = s.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 switch (v[0])
                 {
@@ -213,8 +217,6 @@ namespace WallE
             return places[pl].spaceShip;
         }
 
-
-
         public string GetItemName(int itemIndex)
         {
             return items[itemIndex].name;
@@ -243,7 +245,16 @@ namespace WallE
 
         public void Move(Map m, Direction dir)
         {
+            int nuevaPos = m.Move(pos, dir);
 
+            if (nuevaPos != -1)
+            {
+                pos = nuevaPos;
+            }
+            else
+            {
+                //Hay error
+            }
         }
 
         public void PickItem(Map m ,int placeItemIndex)

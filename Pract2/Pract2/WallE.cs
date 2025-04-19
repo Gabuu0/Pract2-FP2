@@ -181,6 +181,98 @@ namespace WallE
         public string GetItemsPlace(int pl)
         {
             int elems = places[pl].itemsInPlace.NumElems();
+            string itemsPlace = "";
+
+            for (int i =0; i<elems; i ++)
+            {
+                itemsPlace += $"{i} {items[places[pl].itemsInPlace.Nesimo(i)].name}  {items[places[pl].itemsInPlace.Nesimo(i)].description}\n";
+            }
+
+            return itemsPlace;
         }
-    }
+
+        public void PickItemPlace(int pl, int placeItemIndex)
+        {
+            places[pl].itemsInPlace.EliminaElto(places[pl].itemsInPlace.Nesimo(placeItemIndex));
+        }
+
+
+        public void DropItemPlace(int pl, int it)
+        {
+            places[pl].itemsInPlace.InsertaFinal(it);
+        }
+
+        public int Move(int pl, Direction dir)
+        {
+            int direc = (int)dir;
+            return places[pl].connections[direc];
+        }
+
+        public bool IsSpaceShip(int pl)
+        {
+            return places[pl].spaceShip;
+        }
+
+
+
+        public string GetItemName(int itemIndex)
+        {
+            return items[itemIndex].name;
+        }
+        public string GetItemDescription(int itemIndex)
+        {
+            return items[itemIndex].description;
+        }
+    }//class Map
+
+    class WallE
+    {
+        int pos;            //pos de Wall-E en el mapa
+        ListaEnlazada bag;  //lista de items recogidos por Wall-E (indices a la lista de items del mapa)
+
+        public WallE() 
+        {
+            pos = 0;
+            bag = new ListaEnlazada();
+        }
+
+        public int GetPosition()
+        {
+            return pos;
+        }
+
+        public void Move(Map m, Direction dir)
+        {
+
+        }
+
+        public void PickItem(Map m ,int placeItemIndex)
+        {
+            m.PickItemPlace(pos, placeItemIndex);
+        }
+
+
+        public void DropItem(Map m, int bagIndex)
+        {
+            m.DropItemPlace(pos, bagIndex);
+            bag.EliminaElto(bag.Nesimo(bagIndex));
+        }
+
+        public string Bag(Map m)
+        {
+            int elems = bag.NumElems();
+            string items = "";
+            for (int i = 0; i< elems; i++)
+            {
+                items += $"{i}  {m.GetItemName(bag.Nesimo(i))}  {m.GetItemDescription(bag.Nesimo(i))}";
+            }
+            return items;
+        }
+
+        public bool AtSpaceShip(Map map)
+        {
+            return map.IsSpaceShip(pos);
+        }
+    }//class WallE
+
 }

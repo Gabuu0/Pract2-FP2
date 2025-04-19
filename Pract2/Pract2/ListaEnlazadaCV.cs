@@ -117,6 +117,19 @@ namespace Listas{
 			return n;
 		}
 
+
+		public int Nesimo(int pos)
+		{
+			int n = 0;
+			Nodo aux=pri;
+			while (n!=pos)
+			{
+				aux = aux.sig;
+				n++;
+			}
+
+			return aux.dato;
+		}
 	}
 
 }

@@ -94,6 +94,17 @@ namespace WallE
             int pos = int.Parse(v[1]);
             Direction direction = Enum.Parse<Direction>(v[2], ignoreCase: true);
             places[pos].connections[(int)direction] = int.Parse(v[3]);
+
+            pos = int.Parse(v[3]);
+            int nDirection = (int)direction;
+            if (nDirection % 2 == 0)
+            {
+                places[pos].connections[(int)direction + 1] = int.Parse(v[1]);
+            }
+            else
+            {
+                places[pos].connections[(int)direction - 1] = int.Parse(v[1]);
+            }
         }
         private void CreateItem(string[] v)
         {
@@ -199,7 +210,6 @@ namespace WallE
             places[pl].itemsInPlace.EliminaElto(places[pl].itemsInPlace.Nesimo(placeItemIndex));
         }
 
-
         public void DropItemPlace(int pl, int it)
         {
             places[pl].itemsInPlace.InsertaFinal(it);
@@ -223,6 +233,10 @@ namespace WallE
         public string GetItemDescription(int itemIndex)
         {
             return items[itemIndex].description;
+        }
+        public int TheItemInPlace(int placeId, int itemIndex)
+        {
+            return places[placeId].itemsInPlace.Nesimo(itemIndex);
         }
     }//class Map
 
@@ -258,6 +272,7 @@ namespace WallE
 
         public void PickItem(Map m ,int placeItemIndex)
         {
+            bag.InsertaFinal(m.TheItemInPlace(pos, placeItemIndex));
             m.PickItemPlace(pos, placeItemIndex);
         }
 

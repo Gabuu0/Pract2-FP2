@@ -48,9 +48,11 @@ namespace WallE
 
                 case "look":
                     Console.WriteLine(m.GetPlaceInfo(w.GetPosition()));
-                    Console.WriteLine("Caminos disponibles:");
+                    Console.WriteLine();
+                    Console.WriteLine("-Caminos disponibles:");
                     Console.WriteLine(m.GetMoves(w.GetPosition()));
-                    Console.WriteLine("Objetos en este lugar:");
+                    Console.WriteLine();
+                    Console.WriteLine("-Objetos en este lugar:");
                     Console.WriteLine(m.GetItemsPlace(w.GetPosition()));
                     break;
 

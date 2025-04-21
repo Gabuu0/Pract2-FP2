@@ -9,7 +9,7 @@ namespace WallE
         {
             string[] partes = com.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-            if (partes.Length == 0) return;     //Si no se ha escrito nada
+            if (partes.Length == 0) return; //Si no se ha escrito nada
 
             switch (partes[0].ToLower())
             {
@@ -72,11 +72,9 @@ namespace WallE
 
         static void Main(string[] args)
         {
-            // Ruta del archivo del mapa (puedes cambiarlo según donde lo tengas)
-            string filePath = "madrid.txt"; // o args[0] si lo pasas por línea de comandos
+            string filePath = "madrid.txt";
 
-            // Puedes ajustar estos valores si lo sabes de antemano o leerlos del archivo
-            Map map = new Map(100, 100); // por ejemplo, 100 lugares, 100 ítems
+            Map map = new Map(10, 10);
             map.ReadMap(filePath);
 
             WallE w = new WallE();

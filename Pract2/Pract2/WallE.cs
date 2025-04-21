@@ -92,15 +92,12 @@ namespace WallE
         private void CreateStreet(string[] v)
         {
             int pos = int.Parse(v[1]);
-            Direction direction = Enum.Parse<Direction>(v[2]);
+            Direction direction = Enum.Parse<Direction>(v[2], ignoreCase: true);
             places[pos].connections[(int)direction] = int.Parse(v[3]);
         }
         private void CreateItem(string[] v)
         {
             int pos = int.Parse(v[2]);
-            string description = string.Join(' ', v.Skip(4)).Trim('"');
-
-            places[pos].itemsInPlace.InsertaFinal(int.Parse(v[3]));
 
             int posArray = 0;
             while (items[posArray].name != null)
@@ -109,7 +106,9 @@ namespace WallE
             }
 
             items[posArray].name = v[3];
-            items[posArray].description = v[4];
+            items[posArray].description = string.Join(' ', v.Skip(4)).Trim('"');
+
+            places[pos].itemsInPlace.InsertaFinal(posArray);
         }
 
         private string ReadDescription(StreamReader f) 

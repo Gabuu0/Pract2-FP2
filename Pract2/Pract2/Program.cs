@@ -29,14 +29,11 @@ namespace WallE
                 case "pick":
                     try
                     {
-                        /*
-                        int itemIndex;
-                        if (!int.TryParse(partes[1]) ,out int itemIndex)
+                        if (!int.TryParse(partes[1], out int itemIndex))
                         {
-
+                            throw new Exception(" el índice debe escribirse como un número");
                         }
                         w.PickItem(m, itemIndex);
-                        */
                         Console.WriteLine("Dejaste " + m.GetItemName(m.TheItemInPlace(w.GetPosition(), itemIndex)));
                     }
                     catch (Exception e)

@@ -47,6 +47,7 @@ namespace WallE
                     break;
 
                 case "look":
+                    Console.WriteLine(m.GetPlaceName(w.GetPosition()) + ":");
                     Console.WriteLine(m.GetPlaceInfo(w.GetPosition()));
                     Console.WriteLine();
                     Console.WriteLine("-Caminos disponibles:");

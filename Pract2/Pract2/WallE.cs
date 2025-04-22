@@ -148,6 +148,11 @@ namespace WallE
             
         }
 
+        public string GetPlaceName(int pl)  //Voluntario
+        {
+            return places[pl].name;
+        }
+
         public string GetPlaceInfo(int pl)
         {
             return places[pl].description;

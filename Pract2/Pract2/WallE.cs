@@ -64,8 +64,8 @@ namespace WallE
                             break;
                         case "garbage":
                             CreateItem(v, itemsCreated);
-                            break;
                             itemsCreated++;
+                            break;
                     }
                 }
             }

@@ -33,8 +33,8 @@ namespace WallE
                         {
                             throw new Exception(" el índice debe escribirse como un número");
                         }
+                        Console.WriteLine("Cogiste " + m.GetItemName(m.TheItemInPlace(w.GetPosition(), itemIndex)));
                         w.PickItem(m, itemIndex);
-                        Console.WriteLine("Dejaste " + m.GetItemName(m.TheItemInPlace(w.GetPosition(), itemIndex)));
                     }
                     catch (Exception e)
                     {

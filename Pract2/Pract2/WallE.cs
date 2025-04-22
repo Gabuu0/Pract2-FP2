@@ -307,5 +307,4 @@ namespace WallE
             return map.IsSpaceShip(pos);
         }
     }//class WallE
-
 }

@@ -14,34 +14,37 @@ namespace WallE
             switch (partes[0].ToLower())
             {
                 case "move":
-                    if (partes.Length > 1 && Enum.TryParse<Direction>(partes[1], true, out Direction dir))
+                    try
                     {
+                        Direction dir = (Direction)Enum.Parse(typeof(Direction), partes[1], true);
                         w.Move(m, dir);
                     }
-                    else
+                    catch
                     {
                         Console.WriteLine("Dirección no válida. Usa: north, south, east, west.");
                     }
                     break;
 
                 case "pick":
-                    if (partes.Length > 1 && int.TryParse(partes[1], out int itemIndex))
+                    try
                     {
+                        int itemIndex = int.Parse(partes[1]);
                         w.PickItem(m, itemIndex);
                     }
-                    else
+                    catch
                     {
                         Console.WriteLine("Índice de ítem no válido.");
                     }
                     break;
 
                 case "drop":
-                    if (partes.Length > 1 && int.TryParse(partes[1], out int dropIndex))
+                    try
                     {
+                        int dropIndex = int.Parse(partes[1]);
                         w.DropItem(m, dropIndex);
                     }
-                    else
-                    {
+                    catch 
+                    { 
                         Console.WriteLine("Índice de mochila no válido.");
                     }
                     break;
@@ -94,7 +97,6 @@ namespace WallE
                 if (w.AtSpaceShip(map))
                 {
                     Console.WriteLine("¡Has llegado a la nave espacial!");
-                    break;
                 }
             }
 

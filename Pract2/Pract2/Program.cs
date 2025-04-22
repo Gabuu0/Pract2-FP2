@@ -18,6 +18,7 @@ namespace WallE
                     {
                         Direction dir = (Direction)Enum.Parse(typeof(Direction), partes[1], true);
                         w.Move(m, dir);
+                        Console.WriteLine("Te moviste ha " + m.GetPlaceName(w.GetPosition()));
                     }
                     catch
                     {
@@ -30,6 +31,7 @@ namespace WallE
                     {
                         int itemIndex = int.Parse(partes[1]);
                         w.PickItem(m, itemIndex);
+                        Console.WriteLine("Dejaste " + m.GetItemName(m.TheItemInPlace(w.GetPosition(), itemIndex)));
                     }
                     catch
                     {
@@ -42,6 +44,7 @@ namespace WallE
                     {
                         int dropIndex = int.Parse(partes[1]);
                         w.DropItem(m, dropIndex);
+                        Console.WriteLine("Dejaste " + m.GetItemName(m.TheItemInPlace(w.GetPosition(), dropIndex)));
                     }
                     catch 
                     { 
@@ -61,8 +64,15 @@ namespace WallE
                     break;
 
                 case "bag":
-                    Console.WriteLine("Mochila:");
-                    Console.WriteLine(w.Bag(m));
+                    if(w.Bag(m) == "")
+                    {
+                        Console.WriteLine("Mochila vacia");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Mochila:");
+                        Console.WriteLine(w.Bag(m));
+                    }
                     break;
 
                 case "quit":

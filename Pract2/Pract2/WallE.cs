@@ -49,25 +49,24 @@ namespace WallE
             {
                 string s = entrada.ReadLine();
 
-                if (string.IsNullOrWhiteSpace(s))       //Si la linea esta vacia pasa a la siguiente
-                    continue; 
-
-                string[] v = s.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                switch (v[0])
+                if (!string.IsNullOrWhiteSpace(s))       //Si la linea esta vacia pasa a la siguiente
                 {
-                    case "place":
-                        CreatePlace(v, entrada);
-                        //ReadDescription(entrada);
-                        break;
-                    case "street":
-                        CreateStreet(v);
-                        break;
-                    case "garbage":
-                        CreateItem(v);
-                        break;
+                    string[] v = s.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    switch (v[0])
+                    {
+                        case "place":
+                            CreatePlace(v, entrada);
+                            //ReadDescription(entrada);
+                            break;
+                        case "street":
+                            CreateStreet(v);
+                            break;
+                        case "garbage":
+                            CreateItem(v);
+                            break;
+                    }
                 }
             }
-            
         }
 
         private void CreatePlace(string[] v, StreamReader texto)

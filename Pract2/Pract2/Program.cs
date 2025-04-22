@@ -29,13 +29,19 @@ namespace WallE
                 case "pick":
                     try
                     {
-                        int itemIndex = int.Parse(partes[1]);
+                        /*
+                        int itemIndex;
+                        if (!int.TryParse(partes[1]) ,out int itemIndex)
+                        {
+
+                        }
                         w.PickItem(m, itemIndex);
+                        */
                         Console.WriteLine("Dejaste " + m.GetItemName(m.TheItemInPlace(w.GetPosition(), itemIndex)));
                     }
-                    catch
+                    catch (Exception e)
                     {
-                        Console.WriteLine("Índice de ítem no válido.");
+                        Console.WriteLine("Índice de ítem no válido: " + e.Message);
                     }
                     break;
 

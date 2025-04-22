@@ -127,7 +127,7 @@ namespace Listas{
 				aux = aux.sig;
 				n++;
 			}
-
+			if (aux == null) throw new Exception("el índice no se encontraba en la lista de items");
 			return aux.dato;
 		}
 	}

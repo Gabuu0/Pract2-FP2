@@ -44,6 +44,7 @@ namespace WallE
         }
         public void ReadMap(string file)
         {
+            int itemsCreated = 0;
             StreamReader entrada = new StreamReader(file);
             while (!entrada.EndOfStream)
             {
@@ -62,8 +63,9 @@ namespace WallE
                             CreateStreet(v);
                             break;
                         case "garbage":
-                            CreateItem(v);
+                            CreateItem(v, itemsCreated);
                             break;
+                            itemsCreated++;
                     }
                 }
             }
@@ -105,20 +107,14 @@ namespace WallE
                 places[pos].connections[(int)direction - 1] = int.Parse(v[1]);
             }
         }
-        private void CreateItem(string[] v)
+        private void CreateItem(string[] v, int itemIndex)
         {
-            int pos = int.Parse(v[2]);
+            int placePos = int.Parse(v[2]);
 
-            int posArray = 0;
-            while (items[posArray].name != null)
-            {
-                posArray++;
-            }
+            items[itemIndex].name = v[3];
+            items[itemIndex].description = string.Join(' ', v.Skip(4)).Trim('"');
 
-            items[posArray].name = v[3];
-            items[posArray].description = string.Join(' ', v.Skip(4)).Trim('"');
-
-            places[pos].itemsInPlace.InsertaFinal(posArray);
+            places[placePos].itemsInPlace.InsertaFinal(itemIndex);
         }
 
         private string ReadDescription(StreamReader f) 

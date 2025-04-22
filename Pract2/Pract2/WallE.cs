@@ -218,7 +218,12 @@ namespace WallE
         public int Move(int pl, Direction dir)
         {
             int direc = (int)dir;
-            return places[pl].connections[direc];
+            int dest = places[pl].connections[direc];
+
+            if (dest == -1)
+                throw new InvalidOperationException("No hay camino en esa dirección.");
+
+            return dest;
         }
 
         public bool IsSpaceShip(int pl)
@@ -258,15 +263,14 @@ namespace WallE
 
         public void Move(Map m, Direction dir)
         {
-            int nuevaPos = m.Move(pos, dir);
-
-            if (nuevaPos != -1)
+            try
             {
-                pos = nuevaPos;
+                int newPos = m.Move(pos, dir);
+                pos = newPos;
             }
-            else
+            catch (InvalidOperationException ex)
             {
-                //Hay error
+                Console.WriteLine("No puedes moverte en esa dirección: " + ex.Message);
             }
         }
 

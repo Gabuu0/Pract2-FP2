@@ -121,12 +121,19 @@ namespace Listas{
 		public int Nesimo(int pos)
 		{
 			Nodo aux=pri;
-			for (int n = 0; n< pos; n++ )
+			int n=0;
+			while (aux != null && n<pos)
 			{
 				aux = aux.sig;
+				n++;
+			}
+
+			if (aux == null)
+			{
+				throw new Exception("El índice de ítem no es correcto");
 			}
 			
-			if (aux == null) throw new Exception("el índice no se encontraba en la lista de items");
+			
 			return aux.dato;
 		}
 	}

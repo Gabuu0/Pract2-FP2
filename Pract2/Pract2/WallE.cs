@@ -46,6 +46,8 @@ namespace WallE
         {
             int itemsCreated = 0;
             StreamReader entrada = new StreamReader(file);
+
+
             while (!entrada.EndOfStream)
             {
                 string s = entrada.ReadLine();
@@ -219,10 +221,6 @@ namespace WallE
         {
             int direc = (int)dir;
             int dest = places[pl].connections[direc];
-
-            if (dest == -1)
-                throw new InvalidOperationException("No hay camino en esa dirección.");
-
             return dest;
         }
 
@@ -263,14 +261,15 @@ namespace WallE
 
         public void Move(Map m, Direction dir)
         {
-            try
+            int newPos = m.Move(pos, dir);
+            if (newPos == -1)
             {
-                int newPos = m.Move(pos, dir);
-                pos = newPos;
+                Console.WriteLine("No puedes moverte hacia esa dirección");
             }
-            catch (InvalidOperationException ex)
+            else
             {
-                Console.WriteLine("No puedes moverte en esa dirección: " + ex.Message);
+                pos = newPos;
+                Console.WriteLine("Te moviste ha " + m.GetPlaceName(pos));
             }
         }
 
@@ -283,7 +282,8 @@ namespace WallE
 
         public void DropItem(Map m, int bagIndex)
         {
-            m.DropItemPlace(pos, bagIndex);
+            m.DropItemPlace(pos, bag.Nesimo(bagIndex));
+            Console.WriteLine("Dejaste " + m.GetItemName(bag.Nesimo(bagIndex)));
             bag.EliminaElto(bag.Nesimo(bagIndex));
         }
 

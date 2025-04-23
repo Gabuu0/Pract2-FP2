@@ -14,15 +14,13 @@ namespace WallE
             switch (partes[0].ToLower())
             {
                 case "move":
-                    try
+                    if(!Enum.TryParse(partes[1],true,  out Direction dir))
                     {
-                        Direction dir = (Direction)Enum.Parse(typeof(Direction), partes[1], true);
-                        w.Move(m, dir);
-                        Console.WriteLine("Te moviste ha " + m.GetPlaceName(w.GetPosition()));
+                        Console.WriteLine("Dirección no válida. Usa: north(0), south(1), east(2), west(3).");
                     }
-                    catch
+                    else
                     {
-                        Console.WriteLine("Dirección no válida. Usa: north, south, east, west.");
+                        w.Move(m, dir);
                     }
                     break;
 
@@ -31,28 +29,37 @@ namespace WallE
                     {
                         if (!int.TryParse(partes[1], out int itemIndex))
                         {
-                            throw new Exception(" el índice debe escribirse como un número");
+                            Console.WriteLine("El índice debe introducirse como  un número.");
                         }
-                        Console.WriteLine("Cogiste " + m.GetItemName(m.TheItemInPlace(w.GetPosition(), itemIndex)));
-                        w.PickItem(m, itemIndex);
+                        else
+                        {
+                            Console.WriteLine("Cogiste " + m.GetItemName(m.TheItemInPlace(w.GetPosition(), itemIndex)));
+                            w.PickItem(m, itemIndex);
+                        }
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Índice de ítem no válido: " + e.Message);
+                        Console.WriteLine(e.Message);
                     }
                     break;
 
                 case "drop":
                     try
                     {
-                        int dropIndex = int.Parse(partes[1]);
-                        w.DropItem(m, dropIndex);
-                        Console.WriteLine("Dejaste " + m.GetItemName(m.TheItemInPlace(w.GetPosition(), dropIndex)));
+                        if (!int.TryParse(partes[1], out int dropIndex))
+                        {
+                            Console.WriteLine("El índice debe introducirse como un número");
+                        }
+                        else
+                        {
+                            w.DropItem(m, dropIndex);
+                        }
                     }
-                    catch 
-                    { 
-                        Console.WriteLine("Índice de mochila no válido.");
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
                     }
+                    
                     break;
 
                 case "look":
@@ -78,6 +85,15 @@ namespace WallE
                     }
                     break;
 
+                case "help":
+                    Console.WriteLine("Comandos:\n move <dir> \n Usa: north(0), south(1), east(2), west(3) \n\n pick <idx> \n\n drop <idx> \n\n look \n\n bag \n\n quit \n\n help \n\n clear");
+                    break;
+
+                case "clear":
+                    Console.Clear();
+                    Console.WriteLine("Comandos: move <dir>, pick <idx>, drop <idx>, look, bag, quit, help, clear");
+                    break;
+
                 case "quit":
                     Console.WriteLine("Saliendo del juego...");
                     Environment.Exit(0);
@@ -99,21 +115,16 @@ namespace WallE
             WallE w = new WallE();
 
             Console.WriteLine("¡Bienvenido al mundo de WALL·E!");
-            Console.WriteLine("Comandos: move <dir>, pick <idx>, drop <idx>, look, bag, quit");
+            Console.WriteLine("Comandos: move <dir>, pick <idx>, drop <idx>, look, bag, quit, help, clear");
 
-            while (true)
+            while (!w.AtSpaceShip(map))
             {
                 Console.Write("> ");
                 string input = Console.ReadLine();
                 ProcesaInput(input, w, map);
-
-                if (w.AtSpaceShip(map))
-                {
-                    Console.WriteLine("¡Has llegado a la nave espacial!");
-                }
             }
 
-            Console.WriteLine("Ítems recogidos por WALL·E:");
+            Console.WriteLine("¡Has llegado a la nave espacial!\nÍtems recogidos por WALL·E:");
             Console.WriteLine(w.Bag(map));
         }
     }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿//Gabriel García Bazán
+//Alejandro Bueno Curbera
+using System;
 
 namespace Listas{
 	// listas enlazadas de ENTEROS (fácilmente adaptable a cualquier otro tipo)
@@ -118,16 +120,25 @@ namespace Listas{
 		}
 
 
+
+		/// <summary>
+		/// Este método devuelve el dato del elemento pos-esimo especificado 
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		/// <exception cref="Exception"></exception>
 		public int Nesimo(int pos)
 		{
 			Nodo aux=pri;
 			int n=0;
+			//se busca el elemento pos-esimo hasta que aux sea null 
 			while (aux != null && n<pos)
 			{
 				aux = aux.sig;
 				n++;
 			}
 
+			//si aux es null significa no hay elemento pos-esimo, por tanto se lanza excepción
 			if (aux == null)
 			{
 				throw new Exception("El índice de ítem no es correcto");

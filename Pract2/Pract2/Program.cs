@@ -1,3 +1,5 @@
+//Gabriel García Bazán
+//Alejandro Bueno Curbera
 using System;
 using System.IO;
 
@@ -14,6 +16,8 @@ namespace WallE
             switch (partes[0].ToLower())
             {
                 case "move":
+
+                    //si no se puede convertir en un Direction el string que sigue a move se informa al jugador
                     if(!Enum.TryParse(partes[1],true,  out Direction dir))
                     {
                         Console.WriteLine("Dirección no válida. Usa: north(0), south(1), east(2), west(3).");
@@ -27,6 +31,7 @@ namespace WallE
                 case "pick":
                     try
                     {
+                        //si el string que sigue a pick no se puede convertir en int se informa al jugador
                         if (!int.TryParse(partes[1], out int itemIndex))
                         {
                             Console.WriteLine("El índice debe introducirse como  un número.");
@@ -46,6 +51,7 @@ namespace WallE
                 case "drop":
                     try
                     {
+                        //si el string que sigue a drop no se puede convertir en int se informa al jugador
                         if (!int.TryParse(partes[1], out int dropIndex))
                         {
                             Console.WriteLine("El índice debe introducirse como un número");
@@ -110,22 +116,29 @@ namespace WallE
             string filePath = "madrid.txt";
 
             Map map = new Map(10, 10);
-            map.ReadMap(filePath);
-
-            WallE w = new WallE();
-
-            Console.WriteLine("¡Bienvenido al mundo de WALL·E!");
-            Console.WriteLine("Comandos: move <dir>, pick <idx>, drop <idx>, look, bag, quit, help, clear");
-
-            while (!w.AtSpaceShip(map))
+            try
             {
-                Console.Write("> ");
-                string input = Console.ReadLine();
-                ProcesaInput(input, w, map);
-            }
+                map.ReadMap(filePath);
 
-            Console.WriteLine("¡Has llegado a la nave espacial!\nÍtems recogidos por WALL·E:");
-            Console.WriteLine(w.Bag(map));
+                WallE w = new WallE();
+
+                Console.WriteLine("¡Bienvenido al mundo de WALL·E!");
+                Console.WriteLine("Comandos: move <dir>, pick <idx>, drop <idx>, look, bag, quit, help, clear");
+
+                while (!w.AtSpaceShip(map))
+                {
+                    Console.Write("> ");
+                    string input = Console.ReadLine();
+                    ProcesaInput(input, w, map);
+                }
+
+                Console.WriteLine("¡Has llegado a la nave espacial!\nÍtems recogidos por WALL·E:");
+                Console.WriteLine(w.Bag(map));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }
